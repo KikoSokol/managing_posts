@@ -1,14 +1,17 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
 # Create your models here.
 
-class User(models.Model):
-    name = models.CharField(max_length=256)
-    surname = models.CharField(max_length=256)
+def validate_title(value):
+    if len(value) < 5:
+        raise ValidationError("Title must contain at least 5 characters.")
+
+    return value
 
 
 class Post(models.Model):
-    userId = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
-    title = models.CharField(max_length=256)
-    body = models.CharField(max_length=10000)
+    user_id = models.IntegerField()
+    title = models.CharField(max_length=256, validators=[validate_title])
+    body = models.CharField(max_length=100000)
