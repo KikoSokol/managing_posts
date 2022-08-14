@@ -2,7 +2,6 @@ from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-import json
 
 from posts.serializers import PostSerializer, PostUpdateSerializer
 from posts.models import Post
@@ -41,12 +40,10 @@ class PostList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        request_body = request.body
         serializer = PostSerializer(data=request.data)
 
         if serializer.is_valid():
-            post_dict = json.loads(request_body)
-            return create_post(post_dict["user_id"], serializer)
+            return create_post(request.data["user_id"], serializer)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
