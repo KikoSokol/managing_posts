@@ -31,7 +31,7 @@ cd managing_posts
 
 ```sh
 virtualenv --python C:\Path\To\Python\python.exe env
-.\venv\Scripts\activate
+.\env\Scripts\activate
 ```
 
 5. Install all dependencies:
