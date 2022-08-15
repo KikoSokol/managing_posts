@@ -16,20 +16,27 @@ def create_new_id_for_post():
 
 
 def create_post(user_id, serializer):
-    if jp.exists_user_with_id(user_id):
+    exist_user = jp.exists_user_with_id(user_id)
+    if exist_user[0]:
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        return Response({"detail": "user_id " + str(user_id) + " does not exists."}, status=status.HTTP_400_BAD_REQUEST)
+        if exist_user[2] == 503:
+            return Response(exist_user[1], status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        else:
+            return Response({"detail": "user_id " + str(user_id) + " does not exists."},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 def find_and_save_post(pk):
     post = jp.get_post_by_id(pk)
 
-    if post is None:
+    if post[2] == 404:
         return Response({"detail:": "Post does not exists"}, status=status.HTTP_404_NOT_FOUND)
+    elif post[2] == 503:
+        return Response(post[1], status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
-    serializer = PostSerializer(data=post)
+    serializer = PostSerializer(data=post[1])
 
     if serializer.is_valid():
         serializer.save()
