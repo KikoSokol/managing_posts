@@ -2,7 +2,20 @@ _# managing_posts
 
 ## AMCEF - test assignment
 
-### Installation
+### Installation - Database PostgreSQL
+
+1. Download installer from https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+
+2. Install PostgreSQL
+- In installation wizard you must choose PostgreSQL and pgAdmin 4
+- You must set password "postgres" and user "postgres" in installation wizard
+- You must set port to 5432
+- In pgAdmin 4 application you must create database with name "managing_posts"
+- You may set previous parameters to other value, but you must change database settings in file /managing_posts/settings.py
+
+
+
+### Installation - Application
 
 1. Download and install python 3.10.6 from https://www.python.org/downloads/
 
