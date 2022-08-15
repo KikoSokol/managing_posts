@@ -10,6 +10,11 @@ import posts.json_placeholder_communication_service as jp
 
 # Create your views here.
 
+def create_new_id_for_post():
+    count_of_posts = Post.objects.filter(id__gte=100).count()
+    return 100 + count_of_posts + 1
+
+
 def create_post(user_id, serializer):
     if jp.exists_user_with_id(user_id):
         serializer.save()
@@ -40,6 +45,7 @@ class PostList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        request.data["id"] = create_new_id_for_post()
         serializer = PostSerializer(data=request.data)
 
         if serializer.is_valid():

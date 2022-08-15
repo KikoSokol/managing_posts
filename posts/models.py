@@ -12,6 +12,7 @@ def validate_title(value):
 
 
 class Post(models.Model):
+    id = models.IntegerField(primary_key=True)
     user_id = models.IntegerField()
     title = models.CharField(max_length=256, validators=[validate_title])
     body = models.CharField(max_length=100000)
